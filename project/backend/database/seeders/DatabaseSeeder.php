@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 
 class DatabaseSeeder extends Seeder
@@ -15,7 +16,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $users = [
+        $users = collect([
             [
                 'name' => 'Admin User',
                 'email' => 'admin@blog.com',
@@ -37,7 +38,13 @@ class DatabaseSeeder extends Seeder
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
-        ];
+        ])
+        ->map(function ($user) {
+            // Ensure seeded users never store plaintext passwords
+            $user['password'] = Hash::make($user['password']);
+            return $user;
+        })
+        ->toArray();
 
         DB::table('users')->insert($users);
 
