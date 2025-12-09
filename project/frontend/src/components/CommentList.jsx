@@ -77,9 +77,10 @@ function CommentList({ articleId }) {
               }}
             >
               <div 
-                dangerouslySetInnerHTML={{ __html: comment.content }}
-                style={{ marginBottom: '0.5rem' }}
-              />
+                style={{ marginBottom: '0.5rem', whiteSpace: 'pre-wrap' }}
+              >
+                {comment.content}
+              </div>
               
               <div style={{ fontSize: '0.85em', color: '#7f8c8d' }}>
                 — {comment.user?.name || 'Utilisateur'}
